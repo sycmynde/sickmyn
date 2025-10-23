@@ -1,11 +1,11 @@
 # Android Performance App — Full Implementation (Kotlin + CI + Signing Config)
 
-Proyek ini sekarang sudah mencakup Gradle wrapper, workflow CI, .gitignore, proguard-rules.pro, dan konfigurasi signing release agar siap untuk distribusi di Play Store atau instalasi manual dengan APK/AAB bertanda tangan.
+## Proyek ini sekarang sudah mencakup Gradle wrapper, workflow CI, .gitignore, proguard-rules.pro, dan konfigurasi signing release agar siap untuk distribusi di Play Store atau instalasi manual dengan APK/AAB bertanda tangan.
 
 
 ---
 
-Struktur Proyek Final
+## Struktur Proyek Final
 
 PerfApp/
 ├── app/
@@ -25,7 +25,7 @@ PerfApp/
 
 ---
 
-Konfigurasi Signing Release di app/build.gradle.kts
+## Konfigurasi Signing Release di app/build.gradle.kts
 
 Tambahkan blok berikut di bagian android { ... }:
 
@@ -69,7 +69,7 @@ android {
 
 ---
 
-Membuat Keystore
+## Membuat Keystore
 
 Buat keystore baru dengan perintah:
 
@@ -85,7 +85,7 @@ File perfapp-release.keystore akan dibuat di folder proyek.
 
 ---
 
-Menyimpan Secret di GitHub Actions
+## Menyimpan Secret di GitHub Actions
 
 Buka repo GitHub → Settings → Secrets and variables → Actions → New repository secret:
 
@@ -117,7 +117,7 @@ Tambahkan langkah upload artifact release:
 
 ---
 
-Build Manual di Lokal
+## Build Manual di Lokal
 
 ./gradlew assembleRelease
 
@@ -128,7 +128,7 @@ APK ini sudah tertanda tangan, siap diinstal atau diunggah ke Play Console.
 
 ---
 
-Tips Aman
+## Tips Aman
 
 Jangan pernah push file perfapp-release.keystore atau password ke GitHub publik.
 

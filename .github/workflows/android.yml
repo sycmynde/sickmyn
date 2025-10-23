@@ -7,14 +7,6 @@
 
 ## Struktur Proyek Final
 
-
-
-
-
-
-## Konfigurasi Signing Release di app/build.gradle.kts
-Tambahkan blok berikut di bagian android { ... }:
-
 ## android {
     compileSdk = 34
     namespace = "com.example.perfapp"

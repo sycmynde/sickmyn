@@ -1,4 +1,4 @@
-Android Performance App — Full Implementation (Kotlin + CI + Signing Config)
+# Android Performance App — Full Implementation (Kotlin + CI + Signing Config)
 
 Proyek ini sekarang sudah mencakup Gradle wrapper, workflow CI, .gitignore, proguard-rules.pro, dan konfigurasi signing release agar siap untuk distribusi di Play Store atau instalasi manual dengan APK/AAB bertanda tangan.
 

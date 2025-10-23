@@ -16,7 +16,7 @@
 
 Tambahkan blok berikut di bagian android { ... }:
 
-android {
+## android {
     compileSdk = 34
     namespace = "com.example.perfapp"
 

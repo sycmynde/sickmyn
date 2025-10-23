@@ -30,10 +30,10 @@ Tambahkan blok berikut di bagian android { ... }:
 
     signingConfigs {
         create("release") {
-            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "perfapp-release.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "123456"
-            keyAlias = System.getenv("KEY_ALIAS") ?: "perfapp_key"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: "123456"
+#            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "perfapp-release.keystore")
+  #          storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "123456"
+#            keyAlias = System.getenv("KEY_ALIAS") ?: "perfapp_key"
+   #         keyPassword = System.getenv("KEY_PASSWORD") ?: "123456"
         }
     }
 

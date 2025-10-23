@@ -7,20 +7,8 @@
 
 ## Struktur Proyek Final
 
-PerfApp/
-├── app/
-│   ├── src/main/java/com/example/perfapp/
-│   ├── src/main/res/
-│   ├── build.gradle.kts
-│   ├── proguard-rules.pro
-│   └── perfapp-release.keystore (opsional, jangan commit)
-├── gradle/wrapper/
-├── gradlew
-├── gradlew.bat
-├── settings.gradle.kts
-├── README.md
-├── .github/workflows/build.yml
-└── .gitignore
+
+
 
 
 ---

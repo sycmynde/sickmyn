@@ -1,0 +1,145 @@
+Android Performance App — Full Implementation (Kotlin + CI + Signing Config)
+
+Proyek ini sekarang sudah mencakup Gradle wrapper, workflow CI, .gitignore, proguard-rules.pro, dan konfigurasi signing release agar siap untuk distribusi di Play Store atau instalasi manual dengan APK/AAB bertanda tangan.
+
+
+---
+
+Struktur Proyek Final
+
+PerfApp/
+├── app/
+│   ├── src/main/java/com/example/perfapp/
+│   ├── src/main/res/
+│   ├── build.gradle.kts
+│   ├── proguard-rules.pro
+│   └── perfapp-release.keystore (opsional, jangan commit)
+├── gradle/wrapper/
+├── gradlew
+├── gradlew.bat
+├── settings.gradle.kts
+├── README.md
+├── .github/workflows/build.yml
+└── .gitignore
+
+
+---
+
+Konfigurasi Signing Release di app/build.gradle.kts
+
+Tambahkan blok berikut di bagian android { ... }:
+
+android {
+    compileSdk = 34
+    namespace = "com.example.perfapp"
+
+    defaultConfig {
+        applicationId = "com.example.perfapp"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "perfapp-release.keystore")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "123456"
+            keyAlias = System.getenv("KEY_ALIAS") ?: "perfapp_key"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "123456"
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+        }
+        getByName("debug") {
+            isDebuggable = true
+        }
+    }
+}
+
+> ⚠️ Keamanan: Jangan pernah commit file .keystore atau password langsung ke repository. Gunakan environment variable di GitHub Actions atau .env lokal.
+
+
+
+
+---
+
+Membuat Keystore
+
+Buat keystore baru dengan perintah:
+
+keytool -genkeypair \
+  -v -keystore perfapp-release.keystore \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -alias perfapp_key
+
+Masukkan password dan data sesuai kebutuhan.
+
+File perfapp-release.keystore akan dibuat di folder proyek.
+
+
+---
+
+Menyimpan Secret di GitHub Actions
+
+Buka repo GitHub → Settings → Secrets and variables → Actions → New repository secret:
+
+Buat 4 secrets berikut:
+
+KEYSTORE_PATH=perfapp-release.keystore
+KEYSTORE_PASSWORD=your_password
+KEY_ALIAS=perfapp_key
+KEY_PASSWORD=your_key_password
+
+Lalu ubah bagian build di .github/workflows/build.yml agar menggunakan secret:
+
+- name: Build Release APK
+  run: ./gradlew assembleRelease
+  env:
+    KEYSTORE_PATH: perfapp-release.keystore
+    KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+    KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+Tambahkan langkah upload artifact release:
+
+- name: Upload Release APK
+  uses: actions/upload-artifact@v4
+  with:
+    name: PerfApp-release-apk
+    path: app/build/outputs/apk/release/app-release.apk
+
+
+---
+
+Build Manual di Lokal
+
+./gradlew assembleRelease
+
+Hasil: app/build/outputs/apk/release/app-release.apk
+
+APK ini sudah tertanda tangan, siap diinstal atau diunggah ke Play Console.
+
+
+---
+
+Tips Aman
+
+Jangan pernah push file perfapp-release.keystore atau password ke GitHub publik.
+
+Simpan backup keystore dengan aman (misal di Google Drive pribadi terenkripsi).
+
+Ganti password default sebelum distribusi.
+
+Gunakan AAB (.aab) untuk upload ke Play Store.
+
+
+
+---
+
+Proyek kini sudah production-ready: build debug, release, CI/CD, signing otomatis, dan aturan ProGuard aman. Selanjutnya bisa ditambahkan integrasi Firebase Crashlytics atau Play Integrity API untuk pelacakan performa di perangkat nyata.
